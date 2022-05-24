@@ -41,6 +41,7 @@ export default function RoomPage() {
         <div className="container">
           <div className="map">
             <div>지도가 들어갑니다</div>
+            <div>serviceId : {id}</div>
           </div>
           <div className="make_room">
             <BlackButton
@@ -54,7 +55,7 @@ export default function RoomPage() {
         </div>
         <Snackbar
           open={alertOpen}
-          autoHideDuration={3000}
+          autoHideDuration={6000}
           onClose={handleAlertClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
