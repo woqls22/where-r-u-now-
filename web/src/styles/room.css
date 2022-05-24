@@ -1,0 +1,11 @@
+.map {
+  min-height: 600px;
+  width: 100%;
+  max-width: inherit;
+  max-height: 800px;
+  border: 1px solid black;
+  margin-bottom: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

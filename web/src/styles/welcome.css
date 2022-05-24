@@ -34,10 +34,16 @@
   background-position: center center;
   background-size: 100% 100%;
 }
+.room_title_field {
+  width: 90%;
+  max-width: 400px;
+  margin-top: 20px;
+  font-size: larger;
+}
 .make_room {
   width: 90%;
   max-width: 400px;
-  margin: 20px;
+  margin-bottom: 30px;
   font-size: larger;
   margin-top: auto;
 }
