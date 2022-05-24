@@ -6,6 +6,11 @@
   height: 40vmin;
   pointer-events: none;
 }
+.app_body {
+  max-width: 800px;
+  min-height: 80vh;
+  margin: auto;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
