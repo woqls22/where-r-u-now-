@@ -11,8 +11,18 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
+    publicPath:'/',
     path: path.resolve(__dirname, 'dist'),
   },
+  
+  devServer: {
+    port: 8081,
+    compress:true,
+    open:true,
+    historyApiFallback: {
+      index:'/'
+    }
+},
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
@@ -29,6 +39,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      filename:'./index.html',
+      hash:true,
       templateParameters: {
         env: process.env.NODE_ENV === 'production' ? '' : '[DEV]',
       },
@@ -41,5 +53,5 @@ module.exports = {
           : false,
     }),
     new CleanWebpackPlugin(),
-  ],
+  ]
 };
