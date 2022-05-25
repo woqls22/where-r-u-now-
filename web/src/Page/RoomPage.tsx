@@ -7,7 +7,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { useObserver } from "mobx-react";
 import RoomStore from "../Stores/RoomStore";
 import { BlackTextField } from "../Component/BlackTextField";
-export default function RoomPage(): any {
+export default function RoomPage(): JSX.Element {
   const [alertOpen, setAlertOpen] = useState(false);
   const [nickName, setNickName] = useState("");
   const { id } = useParams<{ id: string }>();

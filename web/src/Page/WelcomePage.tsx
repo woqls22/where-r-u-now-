@@ -4,7 +4,7 @@ import { BlackButton } from "../Component/BlackButton";
 import { useHistory } from "react-router";
 import { BlackTextField } from "../Component/BlackTextField";
 import RoomStore from "../Stores/RoomStore";
-export default function WelcomePage() {
+export default function WelcomePage(): JSX.Element {
   const history = useHistory();
   const [nickName, setNickName] = useState("");
 
