@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../styles/welcome.css";
 import { BlackButton } from "../Component/BlackButton";
 import { useHistory } from "react-router";
 import { BlackTextField } from "../Component/BlackTextField";
+import RoomStore from "../Stores/RoomStore";
 export default function WelcomePage() {
   const history = useHistory();
-  const [title, setTitle] = useState(null);
+  const [nickName, setNickName] = useState("");
+
   function uuidv4() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
       /[xy]/g,
@@ -20,10 +22,11 @@ export default function WelcomePage() {
   const makeRoom = () => {
     // 임시링크 생성
     let tempLink = uuidv4();
+    RoomStore.changeNickName(nickName);
     history.push(`/rooms/${tempLink}`);
   };
-  const changeTitle = (event: any) => {
-    setTitle(event.target.value);
+  const changeNickName = (event: any) => {
+    setNickName(event.target.value);
   };
   return (
     <>
@@ -33,13 +36,18 @@ export default function WelcomePage() {
         <div className="img_item" />
         {/* <div className="room_title_field"></div> */}
         <div className="make_room">
-          {/* <BlackTextField
-            placeholder="방 제목을 입력하세요(최소 5글자 이상)"
+          <BlackTextField
+            placeholder="닉네임을 입력하세요(최소 2글자 이상)"
             fullWidth={true}
-            onChange={(e) => changeTitle(e)}
+            onChange={(e: any) => changeNickName(e)}
             style={{ marginBottom: 20 }}
-          /> */}
-          <BlackButton variant="contained" fullWidth={true} onClick={makeRoom}>
+          />
+          <BlackButton
+            variant="contained"
+            fullWidth={true}
+            onClick={makeRoom}
+            disabled={nickName.length == 0}
+          >
             방 만들기
           </BlackButton>
         </div>

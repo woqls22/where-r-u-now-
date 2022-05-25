@@ -9,7 +9,7 @@ export const BlackTextField = styled(TextField)({
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
-      borderColor: "#F37D71",
+      borderColor: "black",
     },
     "&:hover fieldset": {
       borderColor: "#C9CE6A",

@@ -4,10 +4,13 @@ import "../styles/room.css";
 import { BlackButton } from "../Component/BlackButton";
 import { useHistory, useParams } from "react-router";
 import { Alert, Snackbar } from "@mui/material";
-export default function RoomPage() {
+import { useObserver } from "mobx-react";
+import RoomStore from "../Stores/RoomStore";
+import { BlackTextField } from "../Component/BlackTextField";
+export default function RoomPage(): any {
   const [alertOpen, setAlertOpen] = useState(false);
+  const [nickName, setNickName] = useState("");
   const { id } = useParams<{ id: string }>();
-
   const handleAlertClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -31,44 +34,83 @@ export default function RoomPage() {
           alert("복사를 실패했어요. ");
         });
     } else {
-      alert("복사하기가 지원되지 않는 브라우저입니다.");
+      const $text = document.createElement("textarea");
+      document.body.appendChild($text);
+      $text.value = window.location.href;
+      $text.select();
+      document.execCommand("copy!!");
+      document.body.removeChild($text);
+      handleAlertOpen();
     }
   };
-  useEffect(() => {}, [id]);
-  if (id) {
-    return (
-      <>
+  const complete = () => {
+    RoomStore.changeNickName(nickName);
+  };
+  const changeNickName = (e: any) => {
+    setNickName(e.target.value);
+  };
+  return useObserver(() => {
+    if (RoomStore.nickName.length == 0) {
+      return (
         <div className="container">
-          <div className="map">
-            <div>지도가 들어갑니다</div>
-            <div>serviceId : {id}</div>
-          </div>
+          <div className="welcome_text_a">만나기 30분전</div>
+          <div className="welcome_text_b">지금 어디야? 다같이 공유해요!</div>
+          <div className="img_item" />
+          {/* <div className="room_title_field"></div> */}
           <div className="make_room">
+            <BlackTextField
+              placeholder="닉네임을 입력하세요(최소 2글자 이상)"
+              fullWidth={true}
+              onChange={(e: any) => changeNickName(e)}
+              style={{ marginBottom: 20 }}
+            />
             <BlackButton
               variant="contained"
               fullWidth={true}
-              onClick={handleCopy}
+              onClick={complete}
+              disabled={nickName.length == 0}
             >
-              링크 복사
+              닉네임 설정하기
             </BlackButton>
           </div>
         </div>
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={6000}
-          onClose={handleAlertClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        >
-          <Alert
+      );
+    } else {
+      return (
+        <>
+          <div className="container">
+            <div className="map">
+              <div>지도가 들어갑니다</div>
+              <div>serviceId : {id}</div>
+              <div>닉네임 : {RoomStore.nickName}</div>
+            </div>
+            <div className="make_room">
+              <BlackButton
+                variant="contained"
+                fullWidth={true}
+                onClick={handleCopy}
+              >
+                링크 복사
+              </BlackButton>
+            </div>
+          </div>
+          <Snackbar
+            open={alertOpen}
+            autoHideDuration={6000}
             onClose={handleAlertClose}
-            severity="success"
-            sx={{ width: "100%" }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           >
-            링크가 복사되었습니다! 친구에게 공유해보세요!
-          </Alert>
-        </Snackbar>
-      </>
-    );
-  }
-  return <>Nothing</>;
+            <Alert
+              onClose={handleAlertClose}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              링크가 복사되었습니다!
+              <br /> 친구에게 공유해보세요!
+            </Alert>
+          </Snackbar>
+        </>
+      );
+    }
+  });
 }
