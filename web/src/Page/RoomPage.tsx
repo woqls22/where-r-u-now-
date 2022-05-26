@@ -7,6 +7,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { useObserver } from "mobx-react";
 import RoomStore from "../Stores/RoomStore";
 import { BlackTextField } from "../Component/BlackTextField";
+import { Map } from "../Component/Map";
 export default function RoomPage(): JSX.Element {
   const [alertOpen, setAlertOpen] = useState(false);
   const [nickName, setNickName] = useState("");
@@ -80,9 +81,10 @@ export default function RoomPage(): JSX.Element {
         <>
           <div className="container">
             <div className="map">
-              <div>지도가 들어갑니다</div>
+              {/* <div>지도가 들어갑니다</div>
               <div>serviceId : {id}</div>
-              <div>닉네임 : {RoomStore.nickName}</div>
+              <div>닉네임 : {RoomStore.nickName}</div> */}
+              <Map />
             </div>
             <div className="make_room">
               <BlackButton
