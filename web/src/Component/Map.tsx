@@ -15,12 +15,12 @@ export const Map = () => {
       navigator.geolocation.getCurrentPosition((position: any) => {
         const lat = position.coords.latitude + Math.random() / 200;
         const lon = position.coords.longitude + Math.random() / 300;
-        MapStore.recievedMarkerList.push(
-          new LocationData(RoomStore.nickName, lat, lon)
-        );
+        // MapStore.recievedMarkerList.push(
+        //   new LocationData("임시" + lat, lat, lon)
+        // );
       });
     }
-  }, 5000);
+  }, 4000);
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: any) => {
@@ -29,6 +29,19 @@ export const Map = () => {
         MapStore.recievedMarkerList.push(
           new LocationData(RoomStore.nickName, lat, lon)
         );
+        MapStore.naverMap = new naver.maps.Map("naver_map_div", {
+          center: new naver.maps.LatLng(lat, lon),
+          scaleControl: false,
+          logoControl: false,
+          mapDataControl: false,
+          zoomControl: false,
+          minZoom: 1,
+          zoomControlOptions: {
+            //줌 컨트롤의 옵션
+            position: naver.maps.Position.TOP_RIGHT,
+          },
+        });
+        MapStore.refreshMarker("naver_map_div");
       });
     }
   }, []);

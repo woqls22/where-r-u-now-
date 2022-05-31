@@ -62,12 +62,16 @@ const RoomStore = observable<MapStore>({
     });
     this.deleteMarkerList = [];
     // marker fetch
-    this.calculateCenter(divName);
+    // this.calculateCenter(divName);
     //marker Add
     this.recievedMarkerList.map((value) => {
       var marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(value.latitude, value.longitude),
+        position: new naver.maps.LatLng(
+          value.latitude + Math.random() / 2000,
+          value.longitude - Math.random() / 2000
+        ),
         map: this.naverMap,
+
         zIndex: 100,
       });
       var infowindow = new naver.maps.InfoWindow({

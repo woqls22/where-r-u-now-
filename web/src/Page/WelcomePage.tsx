@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../styles/welcome.css";
 import { BlackButton } from "../Component/BlackButton";
 import { useHistory } from "react-router";
 import { BlackTextField } from "../Component/BlackTextField";
 import RoomStore from "../Stores/RoomStore";
+import MapStore from "../Stores/MapStore";
 export default function WelcomePage(): JSX.Element {
   const history = useHistory();
   const [nickName, setNickName] = useState("");
@@ -18,7 +19,11 @@ export default function WelcomePage(): JSX.Element {
       }
     );
   }
-
+  useEffect(() => {
+    // 지도 정보 초기화
+    MapStore.deleteMarkerList = [];
+    MapStore.recievedMarkerList = [];
+  });
   const makeRoom = () => {
     // 임시링크 생성
     let tempLink = uuidv4();
