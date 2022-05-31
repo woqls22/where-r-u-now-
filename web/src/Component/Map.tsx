@@ -2,6 +2,7 @@ import { CircularProgress } from "@mui/material";
 import { randomInt, randomUUID } from "crypto";
 import { useObserver } from "mobx-react-lite";
 import React, { useEffect, useRef, useState } from "react";
+import { useHistory } from "react-router";
 import MapStore from "../Stores/MapStore";
 import RoomStore, { LocationInfo } from "../Stores/RoomStore";
 import "../styles/map.css";
@@ -9,6 +10,7 @@ import { LocationData, NaverMapData } from "../Utils/MapData";
 import useInterval from "../Utils/useInterval";
 import { BlackButton } from "./BlackButton";
 export const Map = () => {
+  const history = useHistory();
   setInterval(() => {
     MapStore.refreshMarker("naver_map_div");
     if (navigator.geolocation) {
@@ -23,26 +25,33 @@ export const Map = () => {
   }, 4000);
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: any) => {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        MapStore.recievedMarkerList.push(
-          new LocationData(RoomStore.nickName, lat, lon)
-        );
-        MapStore.naverMap = new naver.maps.Map("naver_map_div", {
-          center: new naver.maps.LatLng(lat, lon),
-          scaleControl: false,
-          logoControl: false,
-          mapDataControl: false,
-          zoomControl: false,
-          minZoom: 1,
-          zoomControlOptions: {
-            //줌 컨트롤의 옵션
-            position: naver.maps.Position.TOP_RIGHT,
-          },
-        });
-        MapStore.refreshMarker("naver_map_div");
-      });
+      navigator.geolocation.getCurrentPosition(
+        (position: any) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          MapStore.recievedMarkerList.push(
+            new LocationData(RoomStore.nickName, lat, lon)
+          );
+          MapStore.naverMap = new naver.maps.Map("naver_map_div", {
+            center: new naver.maps.LatLng(lat, lon),
+            scaleControl: false,
+            logoControl: false,
+            mapDataControl: false,
+            zoomControl: false,
+            minZoom: 1,
+            zoomControlOptions: {
+              //줌 컨트롤의 옵션
+              position: naver.maps.Position.TOP_RIGHT,
+            },
+          });
+          MapStore.refreshMarker("naver_map_div");
+        },
+        () => {
+          //geolocation Fail
+          alert("UnSecure Environment : Cannot Use Geolocation API");
+          history.goBack();
+        }
+      );
     }
   }, []);
 
