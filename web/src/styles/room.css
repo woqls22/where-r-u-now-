@@ -1,8 +1,8 @@
 .map {
-  min-height: 600px;
+  min-height: 70vh;
   width: 100%;
   max-width: inherit;
-  max-height: 800px;
+  max-height: 70vh;
   border: 1px solid black;
   margin-bottom: 5vh;
   display: flex;
