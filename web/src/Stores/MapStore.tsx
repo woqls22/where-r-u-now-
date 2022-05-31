@@ -1,6 +1,6 @@
 import { observable } from "mobx";
 import { LocationData, NaverMapData } from "../Utils/MapData";
-import { LocationInfo } from "./RoomStore";
+import RoomStore, { LocationInfo } from "./RoomStore";
 class Location {
   constructor(lat: number, lng: number) {}
 }
@@ -11,7 +11,7 @@ interface MapStore {
   refreshMarker: (divName: string) => void;
   calculateCenter: (divName: string) => void;
 }
-const RoomStore = observable<MapStore>({
+const MapStore = observable<MapStore>({
   naverMap: new naver.maps.Map("naver_map", {
     center: new naver.maps.LatLng(37.359704, 127.105399),
     scaleControl: false,
@@ -25,10 +25,7 @@ const RoomStore = observable<MapStore>({
     },
   }),
   deleteMarkerList: [],
-  recievedMarkerList: [
-    new LocationData("hello", 37.3526704, 127.105399),
-    new LocationData("hello2", 37.3512615, 127.105122),
-  ],
+  recievedMarkerList: [],
   calculateCenter(divName) {
     var lat = 0;
     var lng = 0;
@@ -62,6 +59,11 @@ const RoomStore = observable<MapStore>({
     });
     this.deleteMarkerList = [];
     // marker fetch
+    this.recievedMarkerList = [
+      new LocationData(RoomStore.nickName, 37.3526104, 127.105399),
+      new LocationData("hello2", 37.3826504, 127.115399),
+      new LocationData("hello3", 37.3626204, 127.100399),
+    ];
     // this.calculateCenter(divName);
     //marker Add
     this.recievedMarkerList.map((value) => {
@@ -94,4 +96,4 @@ const RoomStore = observable<MapStore>({
     // calculateCenter
   },
 });
-export default RoomStore;
+export default MapStore;

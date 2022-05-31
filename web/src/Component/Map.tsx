@@ -17,21 +17,18 @@ export const Map = () => {
       navigator.geolocation.getCurrentPosition((position: any) => {
         const lat = position.coords.latitude + Math.random() / 200;
         const lon = position.coords.longitude + Math.random() / 300;
-        // MapStore.recievedMarkerList.push(
-        //   new LocationData("임시" + lat, lat, lon)
-        // );
+        // post currentLocation
       });
     }
-  }, 4000);
+  }, 1000);
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: any) => {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
-          MapStore.recievedMarkerList.push(
-            new LocationData(RoomStore.nickName, lat, lon)
-          );
+          // post currentLocation
+
           MapStore.naverMap = new naver.maps.Map("naver_map_div", {
             center: new naver.maps.LatLng(lat, lon),
             scaleControl: false,
