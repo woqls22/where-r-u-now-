@@ -6,11 +6,13 @@ export class LocationInfo {
 interface RoomStore {
   nickName: string;
   location: LocationInfo;
+  roomId: string;
   changeNickName: (data: string) => void;
 }
 const RoomStore = observable<RoomStore>({
   nickName: "",
   location: new LocationInfo(37.3595704, 127.105399),
+  roomId: "",
   changeNickName(data: string) {
     this.nickName = data;
   },

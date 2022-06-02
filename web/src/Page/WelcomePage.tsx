@@ -23,6 +23,7 @@ export default function WelcomePage(): JSX.Element {
     // 지도 정보 초기화
     MapStore.deleteMarkerList = [];
     MapStore.recievedMarkerList = [];
+    clearInterval();
   });
   const makeRoom = () => {
     // 임시링크 생성

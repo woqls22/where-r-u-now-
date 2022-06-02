@@ -12,6 +12,9 @@ export default function RoomPage(): JSX.Element {
   const [alertOpen, setAlertOpen] = useState(false);
   const [nickName, setNickName] = useState("");
   const { id } = useParams<{ id: string }>();
+  useEffect(() => {
+    RoomStore.roomId = id;
+  });
   const handleAlertClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string

@@ -3,11 +3,14 @@ import { randomInt, randomUUID } from "crypto";
 import { useObserver } from "mobx-react-lite";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router";
+import { clearInterval } from "timers";
 import MapStore from "../Stores/MapStore";
 import RoomStore, { LocationInfo } from "../Stores/RoomStore";
 import "../styles/map.css";
+import { rootURL } from "../Utils/Constants";
 import { LocationData, NaverMapData } from "../Utils/MapData";
 import useInterval from "../Utils/useInterval";
+import { SpringAxios } from "../Utils/Utils";
 import { BlackButton } from "./BlackButton";
 export const Map = () => {
   const history = useHistory();
@@ -18,6 +21,9 @@ export const Map = () => {
         const lat = position.coords.latitude + Math.random() / 200;
         const lon = position.coords.longitude + Math.random() / 300;
         // post currentLocation
+        SpringAxios.post(
+          `${rootURL}/kafka/?location=${RoomStore.roomId}-${RoomStore.nickName}-${lat}-${lon}`
+        );
       });
     }
   }, 1000);
@@ -28,7 +34,9 @@ export const Map = () => {
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
           // post currentLocation
-
+          SpringAxios.post(
+            `${rootURL}/kafka?location=${RoomStore.roomId}-${RoomStore.nickName}-${lat}-${lon}`
+          );
           MapStore.naverMap = new naver.maps.Map("naver_map_div", {
             center: new naver.maps.LatLng(lat, lon),
             scaleControl: false,
