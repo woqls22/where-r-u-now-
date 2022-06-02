@@ -22,7 +22,7 @@ export const Map = () => {
         const lon = position.coords.longitude + Math.random() / 300;
         // post currentLocation
         SpringAxios.post(
-          `${rootURL}/kafka/?location=${RoomStore.roomId}-${RoomStore.nickName}-${lat}-${lon}`
+          `${rootURL}/kafka/?location=${RoomStore.roomId}@${RoomStore.nickName}@${lat}@${lon}`
         );
       });
     }
