@@ -4,3 +4,5 @@
 .idea/vcs.xml
 .idea/where-r-u.iml
 web/package-lock.json
+/.idea/
+/server/.idea/
