@@ -10,7 +10,6 @@ interface MapStore {
   deleteMarkerList: NaverMapData[];
   recievedMarkerList: LocationData[];
   renderedMarkerList: NaverMapData[];
-  refreshMarker: (divName: string) => void;
   drawMarker: (nickName: string, lat: number, lng: number) => void;
 }
 const MapStore = observable<MapStore>({
@@ -29,50 +28,6 @@ const MapStore = observable<MapStore>({
   deleteMarkerList: [],
   recievedMarkerList: [],
   renderedMarkerList: [],
-  refreshMarker(divName) {
-    this.deleteMarkerList.map((value) => {
-      var marker = value.Marker;
-      var info = value.InfoWindow;
-      marker.setMap(null);
-      info.setMap(null);
-    });
-    this.deleteMarkerList = [];
-    // marker fetch
-    this.recievedMarkerList = [
-      new LocationData(RoomStore.nickName, 37.3526104, 127.105399),
-      new LocationData("hello2", 37.3826504, 127.115399),
-      new LocationData("hello3", 37.3626204, 127.100399),
-    ];
-    // this.calculateCenter(divName);
-    //marker Add
-    this.recievedMarkerList.map((value) => {
-      var marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(
-          value.latitude + Math.random() / 2000,
-          value.longitude - Math.random() / 2000
-        ),
-        map: this.naverMap,
-        zIndex: 100,
-      });
-      var infowindow = new naver.maps.InfoWindow({
-        disableAnchor: true,
-        content: [
-          `<div class="info-title">
-                    <div>${value.nickName}</div>
-                    </div>`,
-        ].join(""),
-      });
-      marker.addListenerOnce("click", () => {
-        infowindow.open(this.naverMap, marker);
-      });
-      // assign Delete MarkerList
-      this.deleteMarkerList = [
-        ...this.deleteMarkerList,
-        // new NaverMapData(marker, infowindow,),
-      ];
-    });
-    // calculateCenter
-  },
   //   - 마커 Drwa Sequence
   //     1. 위치 데이터 Consume
   //     2. renderedMarkerList에 해당 데이터가 있으면, 삭제
