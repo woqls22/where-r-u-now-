@@ -23,10 +23,10 @@ export const Map = (props: any) => {
     let sockJS = new SockJS(SOCKET_URL);
     let stompClient = Stomp.over(sockJS);
     stompClient.debug = () => {};
-    console.log("webSocket Connect Attemp");
+    // console.log("webSocket Connect Attemp");
     stompClient.connect({}, () => {
-      console.log("websocket connected : /ws/location");
-      console.log("subscribe Attemped : /topic/" + uuid);
+      //   console.log("websocket connected : /ws/location");
+      //   console.log("subscribe Attemped : /topic/" + uuid);
       stompClient.subscribe("/topic/" + uuid, (data) => {
         // data : uuid@nickName@lat@lon
         let body = data.body.toString().split("@");
