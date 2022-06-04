@@ -15,7 +15,7 @@ public class KafkaProducer {
     }
 
     public void sendLocation(String location){
-        System.out.println(String.format("Produce Location : %s", location));
+//        System.out.println(String.format("Produce Location : %s", location));
         this.kafkaTemplate.send(TOPIC, location);
     }
 

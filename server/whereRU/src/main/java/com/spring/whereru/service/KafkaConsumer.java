@@ -16,7 +16,7 @@ public class KafkaConsumer {
 
     @KafkaListener(topics="whereRU", groupId="rooms")
     public void consume(String location)throws IOException{
-        System.out.println(String.format("Consumed Location : %s", location));
+//        System.out.println(String.format("Consumed Location : %s", location));
         template.convertAndSend("/topic",location);
     }
 }
