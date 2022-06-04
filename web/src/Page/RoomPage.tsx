@@ -87,7 +87,7 @@ export default function RoomPage(): JSX.Element {
               {/* <div>지도가 들어갑니다</div>
               <div>serviceId : {id}</div>
               <div>닉네임 : {RoomStore.nickName}</div> */}
-              <Map />
+              <Map id={id} />
             </div>
             <div className="make_room">
               <BlackButton

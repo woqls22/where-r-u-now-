@@ -15,7 +15,8 @@ import { BlackButton } from "./BlackButton";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
-export const Map = () => {
+export const Map = (props: any) => {
+  const uuid = props.id;
   const history = useHistory();
   const connectWebSocket = () => {
     const SOCKET_URL = `${rootURL}/ws/location/`;
@@ -25,7 +26,8 @@ export const Map = () => {
     console.log("webSocket Connect Attemp");
     stompClient.connect({}, () => {
       console.log("websocket connected : /ws/location");
-      stompClient.subscribe("/topic", (data) => {
+      console.log("subscribe Attemped : /topic/" + uuid);
+      stompClient.subscribe("/topic/" + uuid, (data) => {
         // data : uuid@nickName@lat@lon
         let body = data.body.toString().split("@");
         let uuid = body[0];
