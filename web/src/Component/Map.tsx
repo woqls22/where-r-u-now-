@@ -12,6 +12,9 @@ import { LocationData, NaverMapData } from "../Utils/MapData";
 import useInterval from "../Utils/useInterval";
 import { SpringAxios } from "../Utils/Utils";
 import { BlackButton } from "./BlackButton";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
+
 export const Map = () => {
   const history = useHistory();
   setInterval(() => {
@@ -22,7 +25,7 @@ export const Map = () => {
         const lon = position.coords.longitude + Math.random() / 300;
         // post currentLocation
         SpringAxios.post(
-          `${rootURL}/kafka/?location=${RoomStore.roomId}@${RoomStore.nickName}@${lat}@${lon}`
+          `${rootURL}/api/kafka/?location=${RoomStore.roomId}@${RoomStore.nickName}@${lat}@${lon}`
         );
       });
     }
@@ -58,6 +61,18 @@ export const Map = () => {
         }
       );
     }
+
+    const SOCKET_URL = "http://localhost:8090/ws/location/";
+    let sockJS = new SockJS(SOCKET_URL);
+    let stompClient = Stomp.over(sockJS);
+    stompClient.debug = () => {};
+    console.log("webSocket Connect Attemp");
+    stompClient.connect({}, () => {
+      console.log("websocket connected : /ws/location");
+      stompClient.subscribe("/topic", (data) => {
+        console.log("recieved Message : ", data);
+      });
+    });
   }, []);
 
   //지도 사이즈 관련 스타일
