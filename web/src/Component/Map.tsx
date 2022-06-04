@@ -31,24 +31,24 @@ export const Map = () => {
         let uuid = body[0];
         let nickName = body[1];
         let lat = body[2];
-        let lon = body[3];
-        console.log(uuid, nickName, lat, lon);
+        let lng = body[3];
+        // console.log(uuid, nickName, lat, lng);
+        MapStore.drawMarker(nickName, Number(lat), Number(lng));
       });
     });
   };
   setInterval(() => {
-    MapStore.refreshMarker("naver_map_div");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: any) => {
-        const lat = position.coords.latitude + Math.random() / 200;
-        const lon = position.coords.longitude + Math.random() / 300;
+        const lat = position.coords.latitude + Math.random() / 10000;
+        const lon = position.coords.longitude + Math.random() / 10000;
         // post currentLocation
         SpringAxios.post(
           `${rootURL}/api/kafka/?location=${RoomStore.roomId}@${RoomStore.nickName}@${lat}@${lon}`
         );
       });
     }
-  }, 2000);
+  }, 4000);
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -57,7 +57,7 @@ export const Map = () => {
           const lon = position.coords.longitude;
           // post currentLocation
           SpringAxios.post(
-            `${rootURL}/kafka?location=${RoomStore.roomId}-${RoomStore.nickName}-${lat}-${lon}`
+            `${rootURL}/kafka?location=${RoomStore.roomId}@${RoomStore.nickName}@${lat}@${lon}`
           );
           MapStore.naverMap = new naver.maps.Map("naver_map_div", {
             center: new naver.maps.LatLng(lat, lon),
@@ -71,7 +71,6 @@ export const Map = () => {
               position: naver.maps.Position.TOP_RIGHT,
             },
           });
-          MapStore.refreshMarker("naver_map_div");
         },
         () => {
           //geolocation Fail

@@ -8,6 +8,7 @@ export class LocationData {
 export class NaverMapData {
   constructor(
     public Marker: naver.maps.Marker,
-    public InfoWindow: naver.maps.InfoWindow
+    public InfoWindow: naver.maps.InfoWindow,
+    public nickName: string
   ) {}
 }

@@ -7,9 +7,9 @@ export default function Header() {
     <>
       <div
         className="header"
-        onClick={() => {
-          history.push("/");
-        }}
+        // onClick={() => {
+        //   history.push("/");
+        // }}
       >
         그래서 지금 어디야?
       </div>
