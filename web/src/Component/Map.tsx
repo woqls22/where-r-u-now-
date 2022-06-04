@@ -17,6 +17,25 @@ import Stomp from "stompjs";
 
 export const Map = () => {
   const history = useHistory();
+  const connectWebSocket = () => {
+    const SOCKET_URL = `${rootURL}/ws/location/`;
+    let sockJS = new SockJS(SOCKET_URL);
+    let stompClient = Stomp.over(sockJS);
+    stompClient.debug = () => {};
+    console.log("webSocket Connect Attemp");
+    stompClient.connect({}, () => {
+      console.log("websocket connected : /ws/location");
+      stompClient.subscribe("/topic", (data) => {
+        // data : uuid@nickName@lat@lon
+        let body = data.body.toString().split("@");
+        let uuid = body[0];
+        let nickName = body[1];
+        let lat = body[2];
+        let lon = body[3];
+        console.log(uuid, nickName, lat, lon);
+      });
+    });
+  };
   setInterval(() => {
     MapStore.refreshMarker("naver_map_div");
     if (navigator.geolocation) {
@@ -29,7 +48,7 @@ export const Map = () => {
         );
       });
     }
-  }, 1000);
+  }, 2000);
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -61,18 +80,7 @@ export const Map = () => {
         }
       );
     }
-
-    const SOCKET_URL = "http://localhost:8090/ws/location/";
-    let sockJS = new SockJS(SOCKET_URL);
-    let stompClient = Stomp.over(sockJS);
-    stompClient.debug = () => {};
-    console.log("webSocket Connect Attemp");
-    stompClient.connect({}, () => {
-      console.log("websocket connected : /ws/location");
-      stompClient.subscribe("/topic", (data) => {
-        console.log("recieved Message : ", data);
-      });
-    });
+    connectWebSocket();
   }, []);
 
   //지도 사이즈 관련 스타일
