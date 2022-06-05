@@ -23,10 +23,7 @@ export const Map = (props: any) => {
     let sockJS = new SockJS(SOCKET_URL);
     let stompClient = Stomp.over(sockJS);
     stompClient.debug = () => {};
-    // console.log("webSocket Connect Attemp");
     stompClient.connect({}, () => {
-      //   console.log("websocket connected : /ws/location");
-      //   console.log("subscribe Attemped : /topic/" + uuid);
       stompClient.subscribe("/topic/" + uuid, (data) => {
         // data : uuid@nickName@lat@lon
         let body = data.body.toString().split("@");
@@ -34,7 +31,6 @@ export const Map = (props: any) => {
         let nickName = body[1];
         let lat = body[2];
         let lng = body[3];
-        // console.log(uuid, nickName, lat, lng);
         MapStore.drawMarker(nickName, Number(lat), Number(lng));
       });
     });
@@ -51,18 +47,6 @@ export const Map = (props: any) => {
       });
     }
   };
-  // const test = setInterval(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition((position: any) => {
-  //       const lat = position.coords.latitude + Math.random() / 10000;
-  //       const lon = position.coords.longitude + Math.random() / 10000;
-  //       // post currentLocation
-  //       SpringAxios.post(
-  //         `${rootURL}/api/kafka/?location=${RoomStore.roomId}@${RoomStore.nickName}@${lat}@${lon}`
-  //       );
-  //     });
-  //   }
-  // }, 4000);
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -98,9 +82,6 @@ export const Map = (props: any) => {
       setTimeout(produce, 2000);
     }, 2000);
     connectWebSocket();
-    // return () => {
-    //   clearInterval(test);
-    // };
   }, []);
 
   //지도 사이즈 관련 스타일
