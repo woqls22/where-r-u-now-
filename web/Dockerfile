@@ -13,5 +13,8 @@ RUN yarn install --silent
 COPY . /usr/src/app/
 CMD ["yarn","start"]
 
+# build
+# docker build -t react-where-r-u .
+
 # Command
 # docker run -it -p 8081:8081 -p 127.0.0.1:8090:8090 react-where-r-u
