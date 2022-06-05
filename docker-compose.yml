@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  react:
+    build: 
+      context: ./web/
+      dockerfile: Dockerfile
+    image: react
+    container_name: where-r-u-react
+    ports:
+      - "8081:8081"
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    container_name: zookeeper
+    
+      
+  kafka:
+    build: 
+      context: ./kafka/
+      dockerfile: Dockerfile
+    image: kafka-docker_kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: host.docker.internal
+      KAFKA_CREATE_TOPICS: "whereRU:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - zookeeper
+    
+  spring:
+    build:
+      context: ./server/whereRU/
+      dockerfile: Dockerfile
+    image: where-ru-spring
+    container_name: spring
+    environment:
+      - spring.kafka.bootstrap-servers=kafka:9092
+    ports:
+      - "8090:8090"
+    depends_on:
+      - kafka
