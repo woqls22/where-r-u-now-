@@ -6,7 +6,8 @@
 
 ### Demo
 
-- https://www.youtube.com/watch?v=jliI87aV7vI
+[![데모](http://img.youtube.com/vi/jliI87aV7vI/0.jpg)](https://youtu.be/jliI87aV7vI)
+
 
 ### Stacks
 
