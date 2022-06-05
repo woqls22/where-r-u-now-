@@ -42,7 +42,7 @@ const MapStore = observable<MapStore>({
       }
     });
 
-    console.log(this.renderedMarkerList);
+    // console.log(this.renderedMarkerList);
     // 새로운 마커 렌더링
     var marker = new naver.maps.Marker({
       position: new naver.maps.LatLng(lat, lng),

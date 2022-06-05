@@ -39,7 +39,7 @@ export const Map = (props: any) => {
       });
     });
   };
-  setInterval(() => {
+  const publishCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: any) => {
         const lat = position.coords.latitude + Math.random() / 10000;
@@ -50,7 +50,19 @@ export const Map = (props: any) => {
         );
       });
     }
-  }, 4000);
+  };
+  // const test = setInterval(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position: any) => {
+  //       const lat = position.coords.latitude + Math.random() / 10000;
+  //       const lon = position.coords.longitude + Math.random() / 10000;
+  //       // post currentLocation
+  //       SpringAxios.post(
+  //         `${rootURL}/api/kafka/?location=${RoomStore.roomId}@${RoomStore.nickName}@${lat}@${lon}`
+  //       );
+  //     });
+  //   }
+  // }, 4000);
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -81,7 +93,14 @@ export const Map = (props: any) => {
         }
       );
     }
+    setTimeout(function produce() {
+      publishCurrentLocation();
+      setTimeout(produce, 2000);
+    }, 2000);
     connectWebSocket();
+    // return () => {
+    //   clearInterval(test);
+    // };
   }, []);
 
   //지도 사이즈 관련 스타일
