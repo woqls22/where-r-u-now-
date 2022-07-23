@@ -1,4 +1,8 @@
 # where-r-u-now?
+### Usage
+```
+$ docker-compose up -d
+```
 
 ### Description
 
