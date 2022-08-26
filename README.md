@@ -2,7 +2,7 @@
 ### ENV
 ```
  kafka 기존 설치 필요.
- %KAFKA_HOME/bin 아래의 파일을 복사하여 이미지 빌드s
+ %KAFKA_HOME/bin 아래의 파일을 복사하여 이미지 빌드
  download-kafka.sh start-kafka.sh broker-list.sh create-topics.sh versions.sh
 ```
 
